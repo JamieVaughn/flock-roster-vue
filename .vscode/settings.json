@@ -1,3 +1,6 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "eslint.enable": true,
+    "eslint.run": "onSave",
+    "eslint.autoFixOnSave": true
 }

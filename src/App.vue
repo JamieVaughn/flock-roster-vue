@@ -1,16 +1,16 @@
 <template>
   <v-app light>
-      <v-navigation-drawer v-model='sideNav' @click.stop = "sideNav = !sideNav">
+      <v-navigation-drawer temporary v-model='sideNav' @click = "sideNav = !sideNav">
         <v-list>
           <v-list-tile>
           <v-list-tile-action>
             <v-icon left>keyboard_arrow_left </v-icon>
             </v-list-tile-action>
-            <v-list-tile-content @click.stop = "sideNav = !sideNav">
+            <v-list-tile-content>
               Close Navigation Panel
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile v-for='item in menuItems' v-bind:key='item.title'>
+          <v-list-tile v-for='item in menuItems' v-bind:key='item.title' router :to="item.link">
             <v-list-tile-action>
               <v-icon left>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -21,15 +21,18 @@
 
       <v-toolbar dark class='primary'>
         <v-toolbar-side-icon @click.stop = "sideNav = !sideNav" class='hidden-sm-and-up'></v-toolbar-side-icon>
-        <v-toolbar-title>Flock Roster</v-toolbar-title>
+        <v-toolbar-title>
+          <router-link to='/' tag='span' style='cursor: pointer'>Flock Roster</router-link>
+        </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class='hidden-xs-only'>
-          <v-btn flat v-for='item in menuItems' v-bind:key='item.title'>
+          <v-btn flat v-for='item in menuItems' v-bind:key='item.title' router :to="item.link">
             <v-icon dark left>{{ item.icon }}</v-icon>{{item.title }}</v-btn>
         </v-toolbar-items>
       </v-toolbar>
       
     <main>
+      <router-view></router-view>
     </main>
   </v-app>
 </template>
@@ -40,11 +43,11 @@
       return {
         sideNav: false,
         menuItems: [
-          {icon: 'supervisor_account', title: 'View Stock'},
-          {icon: 'room', title: 'New Entry'},
-          {icon: 'person', title: 'Profile'},
-          {icon: 'face', title: 'Sign up'},
-          {icon: 'lock_open', title: 'Sign in'}
+          {icon: 'list', title: 'View Stock', link: '/stock'},
+          {icon: 'add_box', title: 'New Entry', link: '/new'},
+          {icon: 'person', title: 'Profile', link: '/profile'},
+          {icon: 'face', title: 'Sign up', link: '/signup'},
+          {icon: 'lock_open', title: 'Sign in', link: '/signin'}
         ]
       }
     }

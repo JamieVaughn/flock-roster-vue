@@ -6,6 +6,7 @@ import SignIn from '@/components/User/SignIn'
 import SignUp from '@/components/User/SignUp'
 import Stock from '@/components/Stock/Stock'
 import NewEntry from '@/components/Stock/NewEntry'
+import Individual from '@/components/Stock/Individual'
 
 Vue.use(Router)
 
@@ -25,6 +26,12 @@ export default new Router({
       path: '/new',
       name: 'NewEntry',
       component: NewEntry
+    },
+    {
+      path: '/stock/:id',
+      name: 'Individual',
+      props: true,
+      component: Individual
     },
     {
       path: '/profile',

@@ -8,11 +8,12 @@
               <v-container fluid grid-list-lg>
                 <v-layout row>
                   <v-flex xs12>
-                        <v-carousel style="height: 22em">
-                            <a href="" target="_blank"><v-carousel-item 
+                        <v-carousel style="height: 17.6em">
+                            <a href="http://www.ansi.okstate.edu/breeds/sheep/barbadosblackbelly/ram-small" target="_blank"><v-carousel-item 
                             v-for="(item,i) in items" 
-                            v-bind:src="item.src" 
+                            v-bind:src="item.thumb" 
                             :key="i"
+                            class="pics"
                             ></v-carousel-item></a>
                         </v-carousel>
                   </v-flex>
@@ -78,7 +79,7 @@
           {
             value: false,
             photo: '',
-            thumb: 'https://yt3.ggpht.com/-jP6v09aZE60/AAAAAAAAAAI/AAAAAAAAAAA/bjlJ7KExLQk/s100-c-k-no-mo-rj-c0xffffff/photo.jpg',
+            thumb: 'http://www.ansi.okstate.edu/breeds/sheep/barbadosblackbelly/ram-small',
             name: 'Eige',
             id: 1103,
             weight: 131,
@@ -98,3 +99,11 @@
     }
   }
 </script>
+
+<style>
+    .pics {
+        height: 14em;
+        width: 18.5em;
+    }
+</style>
+

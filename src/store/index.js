@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as firebase from 'firebase'
 
 Vue.use(Vuex)
 
@@ -55,13 +56,86 @@ export const store = new Vuex.Store({
         notes: 'BBX'
       }
     ],
-    user: {
-      id: '00001',
-      registeredStock: ['00001']
+    user: null,
+    loading: false,
+    error: null
+  },
+  mutations: {
+    createEntry (state, payload) {
+      state.loadedStock.push(payload)
+    },
+    setUser (state, payload) {
+      state.user = payload
+    },
+    setLoading (state, payload) {
+      state.loading = payload
+    },
+    setError (state, payload) {
+      state.error = payload
+    },
+    clearError (state) {
+      state.error = null
     }
   },
-  mutations: {},
-  actions: {},
+  actions: {
+    createEntry ({commit}, payload) {
+      const stock = {
+        name: payload.name,
+        id: payload.id,
+        thumb: payload.thumb,
+        weight: payload.weight,
+        dob: payload.dob,
+        condition: payload.condition,
+        famacha: payload.famacha,
+        sex: payload.sex,
+        notes: payload.notes
+      }
+      // store to firebase
+      commit('createEntry', stock)
+    },
+    signUserUp ({commit}, payload) {
+      commit('setLoading', true)
+      commit('clearError')
+      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+        .then(
+            user => {
+              commit('setLoading', false)
+              const newUser = {
+                id: user.uid,
+                registeredStock: []
+              }
+              commit('setUser', newUser)
+            }
+        )
+        .catch(
+            error => {
+              commit('setLoading', false)
+              commit('setError', error)
+              console.log(error)
+            }
+        )
+    },
+    signUserIn ({commit}, payload) {
+      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+        .then(
+            user => {
+              const newUser = {
+                id: user.uid,
+                registeredStock: []
+              }
+              commit('setUser', newUser)
+            }
+        )
+        .catch(
+            error => {
+              console.log(error)
+            }
+        )
+    },
+    clearError ({commit}) {
+      commit('clearError')
+    }
+  },
   getters: {
     loadedStock (state) {
       return state.loadedStock.sort((stockA, stockB) => {
@@ -74,6 +148,15 @@ export const store = new Vuex.Store({
           return stock.id === stockid
         })
       }
+    },
+    user (state) {
+      return state.user
+    },
+    loading (state) {
+      return state.loading
+    },
+    error (state) {
+      return state.error
     }
   }
 })

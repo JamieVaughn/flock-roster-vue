@@ -26,7 +26,7 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class='hidden-xs-only'>
-          <v-btn flat v-for='item in menuItems' v-bind:key='item.title' :to="item.link">
+          <v-btn flat v-for='item in menuItems' :key='item.title' :to="item.link">
             <v-icon dark left>{{ item.icon }}</v-icon>{{item.title }}</v-btn>
         </v-toolbar-items>
       </v-toolbar>
@@ -41,14 +41,26 @@
   export default {
     data () {
       return {
-        sideNav: false,
-        menuItems: [
-          {icon: 'list', title: 'View Stock', link: '/stock'},
-          {icon: 'add_box', title: 'New Entry', link: '/new'},
-          {icon: 'person', title: 'Profile', link: '/profile'},
-          {icon: 'face', title: 'Sign up', link: '/signup'},
-          {icon: 'lock_open', title: 'Sign in', link: '/signin'}
+        sideNav: false
+      }
+    },
+    computed: {
+      menuItems () {
+        let menuItems = [
+            {icon: 'face', title: 'Sign up', link: '/signup'},
+            {icon: 'lock_open', title: 'Sign in', link: '/signin'}
         ]
+        if (this.userIsAuthenticated) {
+          menuItems = [
+            {icon: 'list', title: 'View Stock', link: '/stock'},
+            {icon: 'add_box', title: 'New Entry', link: '/new'},
+            {icon: 'person', title: 'Profile', link: '/profile'}
+          ]
+        }
+        return menuItems
+      },
+      userIsAuthenticated () {
+        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
       }
     }
   }
